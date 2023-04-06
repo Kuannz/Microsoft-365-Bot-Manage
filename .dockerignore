@@ -1,0 +1,16 @@
+# IntelliJ project files
+.idea
+out
+gen
+
+.github
+docs
+img
+test
+.gitignore
+app.json
+fly.toml
+LICENSE
+Procfile
+*.md
+runtime.txt

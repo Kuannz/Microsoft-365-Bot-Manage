@@ -5,9 +5,29 @@
 
 Manage the Microsoft 365 Global by the telegram bot
 
-Read in other languages: English | [简体中文](/README.zh-CN.md)
+Read in other languages: English | [简体中文](README.zh_cn.md)
 
-### Create app
+**Features**
+- Manage multiple Microsoft 365 global accounts by the bot
+- Batch add or export apps
+- Add or delete domain names
+- Add, delete, check or modify users
+- View subscription information, assign or revoke licenses for users
+- View organization information
+- View role information, assign or revoke roles for users
+- Multilingual adaptation
+- Functions in Microsoft graph API will be added in the future
+
+
+---
+### 🎉Preview
+
+---
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Microsoft-365-bot@main/img/bot/start.png" alt="screenshots"></p>
+
+[👉More screenshot >>>](docs/en_us/bot.md)
+
+### 🚀Create app
 
 ---
 >https://aad.portal.azure.com
@@ -22,11 +42,11 @@ Read in other languages: English | [简体中文](/README.zh-CN.md)
 > RoleManagement.Read.Directory, RoleManagement.ReadWrite.Directory  
 > User.Read.All, User.ReadWrite.All  
 > Directory.Read.All, Directory.ReadWrite.All  
+> Directory.AccessAsUser.All
 
-### Create a Robot
+### 🤖Create a Robot
 
 ---
-
 <a href="https://t.me/BotFather">@BotFather</a> 
 
 <p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Microsoft-365-bot@main/img/3.png" alt="screenshots"></p>
@@ -36,8 +56,14 @@ Read in other languages: English | [简体中文](/README.zh-CN.md)
 ```
 start - Start Robot
 log - Get the log of the robot
+key -Protect app data
 myapp - Specify an app
 newapp - Create a new app
+clearapp - Clear all app
+addapps - Add more apps
+exportapps - Batch add app
+listdomain - List and manage domain names
+adddomain - Add a domain name
 getorg - Get organization information
 getrole - Get role information
 getsub - Get subscription information
@@ -48,97 +74,79 @@ addUser - Add a user
 cancel - Cancel the current operation
 ```
 
-
-### Python Runtime
-
----
-```bash
-python 3.10
-```
-
-### Install
+### ⚙️Config
 
 ---
-```bash
-git clone https://github.com/bitjerry/Microsoft-365-bot.git
-cd Microsoft-365-bot
-```
+> Considering one-button deployment, configurations are all in the form of environment variables.   
 
-### Deploy
+[❓Instructions >>>](docs/en_us/config.md)
+
+### 🥼Runtime
 
 ---
-
-1. Create a PostgresSQL database
-
-2. Create an application
-
-3. Setting environment variables
-   ```
-   BOT_TOKEN: Telegram bot token, get it by @BotFather
-   ADMIN_ID: Telegram user ID (123456), usually for yourself
-   ```
-
-#### Heroku: 
+- Database: SQL
+- python 3.10
 
 
+### 🔨Deploy
+
+---
+#### Heroku Deploy:
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-#### Fly.io: 
-You need to do this from the command line:
+#### Others:
 
-1. Create a PostgresSQL database for app
-```bash
-flyctl postgres create to create table
-```
-2. Create app
-```bash
-flyctl launch
-```
-3. Attach database to app
-```bash
-flyctl postgres attach --app <app-name> <postgres-app-name>
-```
-4. Add environment variables to the app
-```bash
-flyctl secrets set BOT_TOKEN="xxx"
-flyctl secrets set ADMIN_ID="xxx"
-```
-5. Deployment Program
-```bash
-flyctl deploy
-```
+[❓Fly.io >>>](docs/en_us/fly_io.md)
 
-#### VPS
+[❓VPS >>>](docs/en_us/vps.md)
 
-1. Prepare your database
-If you don't want to use Postgres, you can try using SQLite3 in `db/db.py`.  
-I have written a database core class in the py file, but I have not tested it.
-By the way, you can write another class to replace them, such as mysql.
+[❓Docker >>>](docs/en_us/docker.md)
 
-2. Add environment variables to the app
-3. Deployment Program
-```bash
-pip install -r requirements.txt
-python3 setup.py
-```
-
-### Run
+### 🏃Run
 
 ---
-If it is webhook just access /set_webhook, stop using /stop_webhook
+The bot has two modes of work and does not require manual activation.
 
-### Note
+1. *webhook*: automatically enabled if a webhook link is configured in an environment variable
+2. *polling*: Use this method automatically if you do not configure a webhook link
 
----
-1. The program has two modes: debug and release. Mode switch in config.py `DEBUG = True`.  
-   The public and private keys of RSA will be deleted in release mode, please note that.  
-2. Some serverless may sleep regularly. **Make sure to generate RSA key pairs before deployment!!!** (in the. /db directory) 
-   or keep server awake, otherwise the state will be reset after hibernation and the key pair will be lost.
-3. The program uses flask to implement webhook, you can use polling for local development.
-4. It is important to ensure that the applications created in AZ have sufficient permissions, which APIs need which permissions to view Microsoft documents.
-   >https://docs.microsoft.com/en-us/graph/api/
-   
-### License
+>We recommend using *webhook* because *polling* constantly pulls out messages to the telegram server, which is relatively resource intensive
+
+### 📝Changelog
+
+- 2.0
+  - Optimize project structure
+  - Compatible with all kinds of databases through ORM
+  - Update database encryption mode
+  - Add operation password protection
+  - The operation of manually enabling `webhook` is canceled
+  - Automatic selection of startup mode
+  - Operation on domain name
+  - Batch addition and deletion of apps
+- 2.1
+  - Fix bug
+- 2.2
+  - Add disable/enable function for users
+- 2.3
+  - Improve the management of security keys
+  - Improve English documents
+  - Add user interface preview
+  - Fixed the user module data inconsistency bug
+  - Optimized code structure, and more detailed comments
+- 2.4
+  - Fix the bug deploy on fly.io by GitHub Action
+- 2.5
+  - Fix the bug for table creating
+  - Fix the bug that modify app information
+  - Add the support for docker
+
+### 📖More
+
+- [Security](docs/en_us/security.md)
+- [Document](docs/en_us/dev.md)
+- [FAQ](docs/en_us/error.md)
+
+### ⚖️License
 
 ---
 MIT © [bitjerry](/LICENSE)
